@@ -51,3 +51,6 @@ if [ ! -f "$FONT_DIRECTORY/$NERD_FONT" ]; then
   rm $FONT_DIRECTORY/0xProto.zip
   echo "Nerd font install success"
 fi
+
+rm -rf $HOME/.config/nvim
+cp -r ./nvim $HOME/.config/
