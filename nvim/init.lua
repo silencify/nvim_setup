@@ -15,7 +15,7 @@ Plug('ThePrimeagen/harpoon', { ['branch'] = 'harpoon2'})
 Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.6' })
 
 -- nvim lsp
-Plug('neovim/nvim-lspconfig')
+-- Plug('neovim/nvim-lspconfig')
 
 -- theme
 Plug('joshdick/onedark.vim')
