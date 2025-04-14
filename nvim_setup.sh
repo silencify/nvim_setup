@@ -35,6 +35,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 echo "Vim-plug install success"
 
+NVIM_CONFIG_DIRECTORY=$HOME/.config/nvim
 FONT_DIRECTORY=$HOME/.local/share/fonts
 NERD_FONT="0xProtoNerdFontMono-Regular.ttf"
 
@@ -52,5 +53,23 @@ if [ ! -f "$FONT_DIRECTORY/$NERD_FONT" ]; then
   echo "Nerd font install success"
 fi
 
-rm -rf $HOME/.config/nvim
-cp -r ./nvim $HOME/.config/
+if [ ! -d $NVIM_CONFIG_DIRECTORY ]; then
+  echo "Create nvim directory start"
+  mkdir $HOME/.config/nvim
+  echo "Create nvim directory success"
+fi
+
+if [ ! "$(ls $NVIM_CONFIG_DIRECTORY)" ]; then
+  echo "Copying nvim config start" 
+  rm -rf $HOME/.config/nvim
+  cp -r ./nvim $HOME/.config/
+  echo "Copying nvim config success" 
+else
+  echo "Failed to copy neovim config. $NVIM_CONFIG_DIRECTORY is not empty."
+  echo "Follow these steps:
+   1. Backup your neovim config first.
+   2. Delete your neovim config with command, rm -rf $NVIM_CONFIG_DIRECTORY/*
+   3. Run this script again.
+  "
+fi
+
