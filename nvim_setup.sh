@@ -13,21 +13,21 @@ if ! command -v nvim &> /dev/null; then
 fi
 
 if ! command -v curl &> /dev/null; then
-	echo "Curl install start"
-	apt-get -y install curl
-	echo "Curl install success"
+  echo "Curl install start"
+  apt-get -y install curl
+  echo "Curl install success"
 fi
 
 if ! command -v unzip &> /dev/null; then
-	echo "Unzip install start"
-	apt-get -y install unzip
-	echo "Unzip install success"
+  echo "Unzip install start"
+  apt-get -y install unzip
+  echo "Unzip install success"
 fi
 
 if ! command -v rg &> /dev/null; then
-	echo "Ripgrep install start"
+  echo "Ripgrep install start"
   apt-get -y install ripgrep
-	echo "Ripgrep install success"
+  echo "Ripgrep install success"
 fi
 
 echo "Vim-plug install start"
