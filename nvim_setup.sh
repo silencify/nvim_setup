@@ -30,6 +30,12 @@ if ! command -v rg &> /dev/null; then
   echo "Ripgrep install success"
 fi
 
+if ! command -v xclip &> /dev/null; then
+  echo "Xclip install start"
+  apt-get -y install xclip
+  echo "Xclip install success"
+fi
+
 echo "Vim-plug install start"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
