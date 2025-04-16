@@ -2,37 +2,37 @@
 
 if ! command -v git &> /dev/null; then
   echo "Git install start"
-  apt-get -y install git
+  sudo apt-get -y install git
   echo "Git install end"
 fi
 
 if ! command -v nvim &> /dev/null; then
   echo "Neovim install start"
-  apt-get -y install neovim
+  sudo apt-get -y install neovim
   echo "Neovim install success"
 fi
 
 if ! command -v curl &> /dev/null; then
   echo "Curl install start"
-  apt-get -y install curl
+  sudo apt-get -y install curl
   echo "Curl install success"
 fi
 
 if ! command -v unzip &> /dev/null; then
   echo "Unzip install start"
-  apt-get -y install unzip
+  sudo apt-get -y install unzip
   echo "Unzip install success"
 fi
 
 if ! command -v rg &> /dev/null; then
   echo "Ripgrep install start"
-  apt-get -y install ripgrep
+  sudo apt-get -y install ripgrep
   echo "Ripgrep install success"
 fi
 
 if ! command -v xclip &> /dev/null; then
   echo "Xclip install start"
-  apt-get -y install xclip
+  sudo apt-get -y install xclip
   echo "Xclip install success"
 fi
 
