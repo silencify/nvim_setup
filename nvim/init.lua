@@ -15,7 +15,7 @@ Plug('ThePrimeagen/harpoon', { ['branch'] = 'harpoon2'})
 Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.6' })
 
 -- nvim lsp
--- Plug('neovim/nvim-lspconfig')
+Plug('neovim/nvim-lspconfig')
 
 -- theme
 Plug('joshdick/onedark.vim')
@@ -36,3 +36,4 @@ require('plugin_config.nvim-tree')
 require('plugin_config.telescope')
 require('plugin_config.theme')
 require('plugin_config.tree-sitter')
+require('plugin_config.python-lsp')

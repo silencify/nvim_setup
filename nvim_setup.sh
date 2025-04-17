@@ -6,16 +6,23 @@ if ! command -v git &> /dev/null; then
   echo "Git install end"
 fi
 
-if ! command -v nvim &> /dev/null; then
-  echo "Neovim install start"
-  sudo apt-get -y install neovim
-  echo "Neovim install success"
-fi
-
 if ! command -v curl &> /dev/null; then
   echo "Curl install start"
   sudo apt-get -y install curl
   echo "Curl install success"
+fi
+
+if ! command -v nvim &> /dev/null; then
+  NVIM_ARCHIVE_FILE=nvim-linux-x86_64.tar.gz
+  NVIM_VERSION=v0.10.4
+
+  echo "Neovim $NVIM_VERSION install start"
+  curl -O --output-dir $HOME -L https://github.com/neovim/neovim/releases/download/$NVIM_VERSION/$NVIM_ARCHIVE_FILE
+  tar -xzf $HOME/$NVIM_ARCHIVE_FILE -C $HOME
+  sudo mv $HOME/nvim-linux-x86_64 /opt/nvim
+  sudo ln -s /opt/nvim/bin/nvim /usr/local/bin/nvim
+  rm $HOME/$NVIM_ARCHIVE_FILE
+  echo "Neovim $NVIM_VERSION install success"
 fi
 
 if ! command -v unzip &> /dev/null; then
@@ -35,6 +42,39 @@ if ! command -v xclip &> /dev/null; then
   sudo apt-get -y install xclip
   echo "Xclip install success"
 fi
+
+if ! command -v pipx &> /dev/null; then
+  echo "Pipx install start"
+  sudo apt-get -y install pipx 
+  echo "Pipx install success"
+fi
+
+if ! command -v pip &> /dev/null; then
+  echo "Pip install start"
+  sudo apt-get -y install python3-pip
+  echo "Pip install success"
+fi
+
+if ! pip show python-lsp-server &> /dev/null; then
+  echo "Python-lsp-server install start"
+  pipx install python-lsp-server
+  echo "Python-lsp-server install success"
+fi
+
+if ! pip show python-lsp-black &> /dev/null; then
+  echo "Python-lsp-black install start"
+  pipx install python-lsp-black --include-deps
+  echo "Python-lsp-black install success"
+fi
+
+if ! pip show pylint &> /dev/null; then
+  echo "Pylint install start"
+  pipx install pylint
+  echo "Pylint install success"
+fi
+
+echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc
+source $HOME/.bashrc
 
 echo "Vim-plug install start"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
