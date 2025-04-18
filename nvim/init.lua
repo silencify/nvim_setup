@@ -26,6 +26,13 @@ Plug("tpope/vim-fugitive")
 -- tree sitter
 Plug("nvim-treesitter/nvim-treesitter", {["do"] = ":TSUpdate"})
 
+-- nvim cmp
+Plug('hrsh7th/cmp-nvim-lsp')
+Plug('hrsh7th/cmp-buffer')
+Plug('hrsh7th/cmp-path')
+Plug('hrsh7th/cmp-cmdline')
+Plug('hrsh7th/nvim-cmp')
+
 vim.call('plug#end')
 
 require('config.options')
@@ -37,3 +44,4 @@ require('plugin_config.telescope')
 require('plugin_config.theme')
 require('plugin_config.tree-sitter')
 require('plugin_config.python-lsp')
+require('plugin_config.nvim-cmp')
