@@ -76,6 +76,14 @@ fi
 echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc
 source $HOME/.bashrc
 
+if ! npm list -g --depth=0 | grep -w "typescript-language-server" ; then
+  echo "Typescript, Typescript-language-server install start"
+  npm install -g typescript typescript-language-server
+  echo "Typescript, Typescript-language-server install success"
+fi
+
+
+
 echo "Vim-plug install start"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
