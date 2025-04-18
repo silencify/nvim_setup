@@ -76,13 +76,20 @@ fi
 echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc
 source $HOME/.bashrc
 
+if ! command -v node -v &> /dev/null; then
+  NODEJS_VERSION=20
+  echo "Nodejs v$NODEJS_VERSION install start"
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+  \. "$HOME/.nvm/nvm.sh"
+  nvm install NODEJS_VERSION
+  echo "Nodejs install success"
+fi
+
 if ! npm list -g --depth=0 | grep -w "typescript-language-server" ; then
   echo "Typescript, Typescript-language-server install start"
   npm install -g typescript typescript-language-server
   echo "Typescript, Typescript-language-server install success"
 fi
-
-
 
 echo "Vim-plug install start"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
