@@ -1,16 +1,32 @@
 #!/bin/bash
 
-if ! command -v git &> /dev/null; then
-  echo "Git install start"
-  sudo apt-get -y install git
-  echo "Git install end"
+is_debian_based=true
+is_arch_based=false
+
+softwares=(git curl unzip ripgrep xclip)
+
+if [ $is_debian_based = true ]; then
+  softwares+=(python3-pip pipx)
 fi
 
-if ! command -v curl &> /dev/null; then
-  echo "Curl install start"
-  sudo apt-get -y install curl
-  echo "Curl install success"
+if [ $is_arch_based = true ]; then
+  softwares+=(python-pip python-pipx)
 fi
+
+for software in ${softwares[@]}
+do
+  if ! command -v $software &> /dev/null; then
+    echo "$software install start"
+    if [ $is_debian_based = true ]; then
+      sudo apt-get -y install $software
+    fi
+
+    if [ $is_arch_based = true ]; then
+      sudo pacman -S --noconfirm $software
+    fi
+    echo "$software install end"
+  fi
+done
 
 if ! command -v nvim &> /dev/null; then
   NVIM_ARCHIVE_FILE=nvim-linux-x86_64.tar.gz
@@ -25,71 +41,43 @@ if ! command -v nvim &> /dev/null; then
   echo "Neovim $NVIM_VERSION install success"
 fi
 
-if ! command -v unzip &> /dev/null; then
-  echo "Unzip install start"
-  sudo apt-get -y install unzip
-  echo "Unzip install success"
-fi
+python_packages=(python-lsp-server python-lsp-black pylint)
 
-if ! command -v rg &> /dev/null; then
-  echo "Ripgrep install start"
-  sudo apt-get -y install ripgrep
-  echo "Ripgrep install success"
-fi
-
-if ! command -v xclip &> /dev/null; then
-  echo "Xclip install start"
-  sudo apt-get -y install xclip
-  echo "Xclip install success"
-fi
-
-if ! command -v pipx &> /dev/null; then
-  echo "Pipx install start"
-  sudo apt-get -y install pipx 
-  echo "Pipx install success"
-fi
-
-if ! command -v pip &> /dev/null; then
-  echo "Pip install start"
-  sudo apt-get -y install python3-pip
-  echo "Pip install success"
-fi
-
-if ! pip show python-lsp-server &> /dev/null; then
-  echo "Python-lsp-server install start"
-  pipx install python-lsp-server
-  echo "Python-lsp-server install success"
-fi
-
-if ! pip show python-lsp-black &> /dev/null; then
-  echo "Python-lsp-black install start"
-  pipx install python-lsp-black --include-deps
-  echo "Python-lsp-black install success"
-fi
-
-if ! pip show pylint &> /dev/null; then
-  echo "Pylint install start"
-  pipx install pylint
-  echo "Pylint install success"
-fi
-
-echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc
-source $HOME/.bashrc
+for python_package in ${python_packages[@]}
+do
+  if ! pip show $python_package &> /dev/null; then
+    echo "$python_package install start"
+    pipx install $python_package 
+    pipx ensurepath
+    echo "$python_package install success"
+  fi
+done
 
 if ! command -v node -v &> /dev/null; then
   NODEJS_VERSION=20
   echo "Nodejs v$NODEJS_VERSION install start"
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
-  \. "$HOME/.nvm/nvm.sh"
-  nvm install NODEJS_VERSION
+
+  if [ -d $HOME/.nvm ]; then
+    \. "$HOME/.nvm/nvm.sh"
+  else
+    \. "$HOME/.config/nvm/nvm.sh"
+  fi
+
+  nvm install $NODEJS_VERSION
   echo "Nodejs install success"
 fi
 
-if ! npm list -g --depth=0 | grep -w "typescript-language-server" ; then
-  echo "Typescript, Typescript-language-server install start"
-  npm install -g typescript typescript-language-server
-  echo "Typescript, Typescript-language-server install success"
-fi
+nodejs_packages=(typescript typescript-language-server)
+
+for nodejs_package in ${nodejs_packages[@]}
+do
+  if ! npm list -g $nodejs_package | grep "$nodejs_package" ; then
+    echo "$nodejs_package install start"
+    npm install -g $nodejs_package
+    echo "$nodejs_package install success"
+  fi
+done
 
 echo "Vim-plug install start"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
