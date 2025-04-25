@@ -1,5 +1,5 @@
 #!/bin/bash
-is_debian_based=true
+is_debian_based=false
 is_arch_based=false
 
 debian_based_distros=("linux mint" "ubuntu")
