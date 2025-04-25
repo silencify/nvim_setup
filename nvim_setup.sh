@@ -1,4 +1,5 @@
 #!/bin/bash
+
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 ORANGE='\033[0;33m'
