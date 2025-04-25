@@ -1,7 +1,27 @@
 #!/bin/bash
-
 is_debian_based=true
 is_arch_based=false
+
+debian_based_distros=("linux mint" "ubuntu")
+arch_based_distros=("manjaro linux")
+
+get_installed_distro_name(){
+  distro=$(cat /etc/os-release | awk -F "=" '/^NAME/ {print $2}' | sed 's/\"//g')
+  echo "${distro,,}"
+}
+
+installed_distro_name=$(get_installed_distro_name)
+
+echo "Installing nvim for $installed_distro_name"
+
+if [[ "${debian_based_distros[@]}" =~ $installed_distro_name ]]; then
+  is_debian_based=true 
+elif [[ "${arch_based_distros[@]}" =~ $installed_distro_name ]]; then
+  is_arch_based=true 
+else
+  echo "Linux distro not supported"
+  exit 1
+fi
 
 softwares=(git curl unzip ripgrep xclip)
 
