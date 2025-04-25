@@ -44,7 +44,7 @@ do
     if [ $is_arch_based = true ]; then
       sudo pacman -S --noconfirm $software
     fi
-    echo "$software install end"
+    echo "$software install success"
   fi
 done
 
