@@ -3,12 +3,13 @@
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
 ORANGE='\033[0;33m'
+RED='\033[1;31m'
 NO_COLOR='\033[0m'
 
 is_debian_based=false
 is_arch_based=false
 
-debian_based_distros=("linux mint" "ubuntu")
+debian_based_distros=("linux mint" "ubuntu" "debian gnu/linux")
 arch_based_distros=("manjaro linux")
 
 get_installed_distro_name(){
@@ -33,6 +34,13 @@ format_message(){
   echo -e "${GREEN}$1${NO_COLOR}"
 }
 
+abort_if_install_fails(){
+  if [[ $? > 0 ]]; then
+    echo -e "${RED}Failed to install $1${NC}"
+    exit 1
+  fi
+}
+
 softwares=(git curl unzip ripgrep xclip)
 
 if [ $is_debian_based = true ]; then
@@ -49,10 +57,14 @@ do
     format_message "$software install start"
     if [ $is_debian_based = true ]; then
       sudo apt-get -y install $software
+
+      abort_if_install_fails $software
     fi
 
     if [ $is_arch_based = true ]; then
       sudo pacman -S --noconfirm $software
+
+      abort_if_install_fails $software
     fi
     format_message "$software install success"
   fi
@@ -78,6 +90,9 @@ do
   if ! pip show $python_package &> /dev/null; then
     format_message "$python_package install start"
     pipx install $python_package 
+
+    abort_if_install_fails $python_package
+
     pipx ensurepath
     format_message "$python_package install success"
   fi
@@ -105,6 +120,8 @@ do
   if ! npm list -g $nodejs_package | grep "$nodejs_package" ; then
     format_message "$nodejs_package install start"
     npm install -g $nodejs_package
+
+    abort_if_install_fails $nodejs_package
     format_message "$nodejs_package install success"
   fi
 done
